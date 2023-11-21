@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   useColorScheme,
 } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
 import {
   BLACK,
   BLUE,
@@ -19,12 +20,11 @@ import { INTER_MEDIUM, INTER_REGULAR } from "../theme/typography";
 import { CustomText } from "./CustomText";
 
 interface ButtonProps {
-  name: string;
+  name?: string;
   loading?: boolean;
   onClick: () => void;
   disabled?: boolean;
   icon?: React.ReactNode;
-  outline?: boolean;
   backgroundColor?: string;
 }
 
@@ -34,8 +34,6 @@ const Button = ({
   onClick,
   disabled = false,
   icon,
-  outline,
-  backgroundColor,
 }: ButtonProps) => {
   return (
     <TouchableOpacity
@@ -44,10 +42,8 @@ const Button = ({
       disabled={disabled}
       style={{
         backgroundColor: BLUE,
-
         borderWidth: 1,
         borderColor: INPUT_GREY,
-
         width: "100%",
         paddingVertical: 12,
         paddingHorizontal: 20,
@@ -65,17 +61,18 @@ const Button = ({
           }}
         />
       )}
-      {icon}
+
       <CustomText
         style={{
-          color: BLACK,
-
+          color: WHITE,
           fontFamily: INTER_MEDIUM,
           fontSize: 16,
+          marginRight: icon ? 8 : 0,
         }}
       >
         {name}
       </CustomText>
+      {icon}
     </TouchableOpacity>
   );
 };

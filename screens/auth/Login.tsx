@@ -7,28 +7,44 @@ import {
   Platform,
   TouchableOpacity,
   Image,
-  Button,
 } from "react-native";
 import React from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { RPH, RPW } from "../../theme/dimensions";
 import { CustomText } from "../../components/CustomText";
+import Checkbox from "expo-checkbox";
+
 import {
   INTER_BOLD,
   INTER_MEDIUM,
   INTER_REGULAR,
 } from "../../theme/typography";
-import { BLACK, BLUE, DARK_GREY, LIGHT_GREY } from "../../theme/colors";
+import {
+  BLACK,
+  BLUE,
+  DARK_GREY,
+  INPUT_GREY,
+  LIGHT_GREY,
+} from "../../theme/colors";
 import Wave from "../../assets/images/svg/wave.svg";
 import Input from "../../components/Input";
+import Button from "../../components/Button";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
-const Login = () => {
+type RootStackParamList = {
+  Login: undefined; // Add the definition for the "Login" screen
+};
+
+const Login: React.FC<NativeStackScreenProps<RootStackParamList, "Login">> = ({
+  navigation,
+}) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
   const [emailError, setEmailError] = React.useState("");
   const [passwordError, setPasswordError] = React.useState("");
   const [loading, setLoading] = React.useState(false);
+  const [remember, setRemember] = React.useState(false);
   const insets = useSafeAreaInsets();
 
   const validate = () => {
@@ -61,6 +77,11 @@ const Login = () => {
             justifyContent: "flex-start",
           }}
         >
+          <Image
+            source={require("../../assets/images/Logo.png")}
+            resizeMode="contain"
+            style={{ height: 100, width: 350, marginTop: 80, marginBottom: 20 }}
+          />
           <View
             style={{
               width: "100%",
@@ -78,7 +99,7 @@ const Login = () => {
             >
               Bienvenue!
             </CustomText>
-            <Wave width={30} height={30} />
+            {/* <Wave width={30} height={30} /> */}
           </View>
           <View
             style={{
@@ -113,10 +134,10 @@ const Login = () => {
             label="Email"
             placeholder="Entrez votre email"
             value={email}
-            // onChangeText={(text: React.SetStateAction<string>) => {
-            //   setEmail(text);
-            //   setEmailError("");
-            // }}
+            onChangeText={(text: React.SetStateAction<string>) => {
+              setEmail(text);
+              setEmailError("");
+            }}
             error={emailError}
             placeholderTextColor={LIGHT_GREY}
           />
@@ -125,10 +146,10 @@ const Login = () => {
             placeholder="Entrez votre mot de passe"
             value={password}
             ispassword={true}
-            // onChangeText={(text: React.SetStateAction<string>) => {
-            //   setPassword(text);
-            //   setPasswordError("");
-            // }}
+            onChangeText={(text: React.SetStateAction<string>) => {
+              setPassword(text);
+              setPasswordError("");
+            }}
             error={passwordError}
             placeholderTextColor={LIGHT_GREY}
           />
@@ -143,7 +164,7 @@ const Login = () => {
             }}
           >
             <View style={{ flexDirection: "row", alignItems: "center" }}>
-              {/* <Checkbox
+              <Checkbox
                 style={{
                   marginRight: 8,
                   height: 16,
@@ -154,25 +175,23 @@ const Login = () => {
                 value={remember}
                 onValueChange={setRemember}
                 color={remember ? BLUE : INPUT_GREY}
-              /> */}
-              <TouchableOpacity
+              />
+              {/* <TouchableOpacity
                 style={{ marginRight: 8 }}
                 activeOpacity={0.8}
                 onPress={() => {
-                  // setRemember(!remember);
+                  setRemember(!remember);
                 }}
               >
-                {/* <Image
+                <Image
                   source={
                     remember
-                      ? colorScheme == "light"
-                        ? require("../assets/images/check.png")
-                        : require("../assets/images/bcc.png")
-                      : require("../assets/images/ncheck.png")
+                      ? require("../../assets/icons/check.png")
+                      : require("../../assets/icons/ncheck.png")
                   }
                   style={{ width: 16, height: 16 }}
-                /> */}
-              </TouchableOpacity>
+                />
+              </TouchableOpacity> */}
 
               <CustomText
                 style={{
@@ -196,7 +215,12 @@ const Login = () => {
               </CustomText>
             </TouchableOpacity>
           </View>
-          {/* <Button name="Se connecter" onClick={() => {}} /> */}
+          <Button
+            name="Se connecter"
+            onClick={() => {
+              navigation.navigate("Home" as any);
+            }}
+          />
           <View style={{ height: 16 }} />
         </View>
       </KeyboardAvoidingView>

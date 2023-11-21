@@ -17,7 +17,7 @@ export const LIGHT_LIGHT_GREY = "#EAECF0";
 export const LIGHT_PURPLE = "#EBEDFF";
 
 // Light Mode Colors``
-export const BLUE = "#4146C6";
+export const BLUE = "#26529E";
 export const ERR = "#FECDCA";
 export const RED = "#D92D20";
 export const TITLE_BLACK = "#000000";

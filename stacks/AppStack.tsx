@@ -3,6 +3,7 @@ import React from "react";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Login from "../screens/auth/Login";
+import Home from "../screens/home/Home";
 // Define the type for AppStackParamList if it's not already defined
 type AppStackParamList = {
   Login: undefined;
@@ -19,7 +20,7 @@ function AppStack() {
       }}
     >
       <Stack.Screen name="Login" component={Login} />
-      {/* <Stack.Screen name="Home" component={HomeStack} /> */}
+      <Stack.Screen name="Home" component={Home} />
     </Stack.Navigator>
   );
 }
