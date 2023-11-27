@@ -13,7 +13,6 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { RPH, RPW } from "../../theme/dimensions";
 import { CustomText } from "../../components/CustomText";
 import Checkbox from "expo-checkbox";
-
 import {
   INTER_BOLD,
   INTER_MEDIUM,
@@ -30,12 +29,9 @@ import Wave from "../../assets/images/svg/wave.svg";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { AppStackParamList } from "../../stacks/AppStack";
 
-type RootStackParamList = {
-  Login: undefined; // Add the definition for the "Login" screen
-};
-
-const Login: React.FC<NativeStackScreenProps<RootStackParamList, "Login">> = ({
+const Login: React.FC<NativeStackScreenProps<AppStackParamList, "Login">> = ({
   navigation,
 }) => {
   const [email, setEmail] = React.useState("");
@@ -176,23 +172,6 @@ const Login: React.FC<NativeStackScreenProps<RootStackParamList, "Login">> = ({
                 onValueChange={setRemember}
                 color={remember ? BLUE : INPUT_GREY}
               />
-              {/* <TouchableOpacity
-                style={{ marginRight: 8 }}
-                activeOpacity={0.8}
-                onPress={() => {
-                  setRemember(!remember);
-                }}
-              >
-                <Image
-                  source={
-                    remember
-                      ? require("../../assets/icons/check.png")
-                      : require("../../assets/icons/ncheck.png")
-                  }
-                  style={{ width: 16, height: 16 }}
-                />
-              </TouchableOpacity> */}
-
               <CustomText
                 style={{
                   fontFamily: INTER_REGULAR,

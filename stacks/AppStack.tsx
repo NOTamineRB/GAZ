@@ -1,17 +1,17 @@
-import { View, Text } from "react-native";
 import React from "react";
-
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Login from "../screens/auth/Login";
 import Home from "../screens/home/Home";
-// Define the type for AppStackParamList if it's not already defined
-type AppStackParamList = {
+import ScanResult from "../screens/home/ScanResult";
+import SSO from "../screens/home/SSO";
+
+export type AppStackParamList = {
   Login: undefined;
   Home: undefined;
+  SSO: undefined;
+  ScanResult: { barcodeType: string; barcodeData: string };
 };
-
 const Stack = createNativeStackNavigator<AppStackParamList>();
-
 function AppStack() {
   return (
     <Stack.Navigator
@@ -19,8 +19,10 @@ function AppStack() {
         headerShown: false,
       }}
     >
-      <Stack.Screen name="Login" component={Login} />
+      {/* <Stack.Screen name="Login" component={Login} /> */}
+      <Stack.Screen name="SSO" component={SSO} />
       <Stack.Screen name="Home" component={Home} />
+      {/* <Stack.Screen name="ScanResult" component={ScanResult} /> */}
     </Stack.Navigator>
   );
 }

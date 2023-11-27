@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Image,
   TextInput,
@@ -7,17 +7,7 @@ import {
   useColorScheme,
 } from "react-native";
 import { INTER_REGULAR } from "../theme/typography";
-import {
-  BLACK,
-  BLUE,
-  DARK_INPUT,
-  GREY,
-  LIGHT_GREY,
-  PURPLE,
-  RED,
-  BLACK_RED,
-  WHITE,
-} from "../theme/colors";
+import { BLACK, BLUE, GREY, LIGHT_GREY, RED, WHITE } from "../theme/colors";
 import { CustomText } from "./CustomText";
 
 interface InputProps {
