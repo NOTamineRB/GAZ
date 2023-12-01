@@ -21,7 +21,7 @@ function AppStack() {
     >
       {/* <Stack.Screen name="Login" component={Login} /> */}
       <Stack.Screen name="SSO" component={SSO} />
-      <Stack.Screen name="Home" component={Home} />
+      {/* <Stack.Screen name="Home" component={Home} /> */}
       {/* <Stack.Screen name="ScanResult" component={ScanResult} /> */}
     </Stack.Navigator>
   );

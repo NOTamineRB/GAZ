@@ -1,21 +1,96 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useRef, useState } from "react";
 import { WebView } from "react-native-webview";
+import CookieManager from "@react-native-cookies/cookies";
+import { Platform } from "react-native";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { AppStackParamList } from "../../stacks/AppStack";
 
-const SSO = () => {
+const REACT_APP_SSO_URL = "https://test-app.tangermedpcs.ma";
+
+const SSO: React.FC<NativeStackScreenProps<AppStackParamList, "SSO">> = ({
+  navigation,
+}) => {
+  const webViewRef = useRef(null);
+  const [hasPermission, setHasPermission] = useState(false);
+
+  const onLoadEnd = () => {
+    if (Platform.OS === "android") {
+      CookieManager.get(REACT_APP_SSO_URL, true).then((res) => {
+        // console.log("CookieManager.get =>", res["Token"].value);
+      });
+    } else {
+      CookieManager.getAll(true).then((res) => {
+        // console.log("CookieManager.result =>", res["Token"].value);
+        if (res["Token"]) {
+          const token = res["Token"].value;
+
+          //store user token
+          fetch(`${REACT_APP_SSO_URL}/api/profile/users/my-organizations`, {
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              const result = data["result"];
+              const tmzObject = result.find(
+                (item: { name: string }) => item.name === "TMZ"
+              );
+              const hasGAZmobile =
+                tmzObject.extra["gaz-fonction"] == "managergaz";
+              console.log("Nigger can use the APP", hasGAZmobile);
+              // const organizations = result.organizations;
+              // console.log("organizations =>", organizations);
+              // Check if there is an organization with the name 'TMZ'
+              // const hasTMZOrganization = organizations.some(
+              //   (org: { name: string }) =>
+              //     // org.name === "TMZ" || org.name === "TAC"
+              //     org.name === "TMZ"
+              // );
+              // if (hasTMZOrganization) {
+              //   setHasPermission(true);
+              // }
+              // {
+              //   hasPermission && navigation.navigate("Home");
+              // }
+
+              // Print the result
+              // console.log("Has TMZ Organization:", hasTMZOrganization);
+
+              // Handle the result as needed
+            })
+            .catch((error) => {
+              console.error("Error fetching ORG:", error);
+            });
+        }
+      });
+    }
+  };
+
   return (
     <WebView
-      style={{
-        flex: 1,
-        marginTop: 50,
-      }}
-      source={{
-        uri: "https://test-sso.tangermedpcs.ma/sso?RelayState=Tc3lLI1gvLqDsMSsv3d8j8RwC7bnQSf6g10OhCyr6fcNtRHXAoGxf761&SAMLRequest=nFLNbhMxEH4Va%2B77m03SWN2VQiNEpAJREzhwm3gnraX1ePHMAn171LRIBaQIcbW%2FX%2Fu7FgzDaNeTPvAdfZ1I1PwIA4t9umhhSmwjihfLGEisOrtfv7%2B1dV5aFKGkPjK8ooyXOWOKGl0cwGw3Lfg%2Bo%2FpYLSt0zXy2aE6umTf14mq5wlnvro6EK0flaYX9AsxnSuIjt1DnJZityERbFkXWFuqynmVVmVXLQ1XZcmHrVd7MZ1%2FAbEjUM%2BqZ%2BaA6ii0KJdFMJOaKfE8pUD86yQMWIhHM%2Blevm8gyBUp7St%2B8o093t39I4Dj%2BLYFhKNAJmN1L1zeee8%2F3lx%2Fm%2BAwS%2B%2B5w2GW7j%2FsDdOfPseemybyNKaBeFnk68X12OkMtsXp9hO7fIgdS7FHxunjl2r3s4wMG2m52cfDu8T%2BSaEIWT6xg1sMQv98kQqUWNE0ERfds%2BfsKu58BAAD%2F%2Fw%3D%3D",
+      ref={webViewRef}
+      source={{ uri: REACT_APP_SSO_URL }}
+      style={{ flex: 1, marginTop: 50 }}
+      javaScriptEnabled={true}
+      domStorageEnabled={true}
+      sharedCookiesEnabled={true}
+      onLoadEnd={onLoadEnd}
+      onNavigationStateChange={(nav) => {
+        // console.log("nav =>", nav.url);
+        CookieManager.get(nav.url).then(async (res) => {
+          // store cookies in local storage
+          // console.log("onchange Cookie =>", res);
+          if (res["Token"]) {
+            const token = res["Token"];
+            // store user token
+          }
+        });
       }}
     />
   );
 };
 
 export default SSO;
-
-const styles = StyleSheet.create({});
